@@ -76,7 +76,7 @@ public class EmpleadoManager {
     public void addEmployye(String name, double salario) throws IOException {
         //asegurar que el puntero este en el final del archivo
         if (name == null || name.isEmpty()) {
-            System.out.println("El nombre no puede estar vacío.");
+            System.out.println("El nombre no puede estar vacio.");
             return;
         }
 
@@ -96,7 +96,7 @@ public class EmpleadoManager {
         //p 36  EOF
         //Asegurar crear folder y archivos individuales
         createEmployeeFolder(code);
-        System.out.println("Empleado agregado: " + name + " con código " + code);
+        System.out.println("Empleado agregado: " + name + " con codigo " + code);
 
     }
 
@@ -188,10 +188,10 @@ public class EmpleadoManager {
                 sale.writeDouble(ventas + monto);
                 System.out.println("Venta de Lps. " + monto + " agregada al empleado " + code);
             } else {
-                System.out.println("El empleado ya recibió pago por este mes.");
+                System.out.println("El empleado ya recibio pago por este mes.");
             }
         } else {
-            System.out.println("El empleado no está activo.");
+            System.out.println("El empleado no esta activo.");
         }
 
     }
@@ -214,7 +214,7 @@ public class EmpleadoManager {
             boolean pagado = ventas.readBoolean();
 
             if (pagado) {
-                System.out.println("El empleado ya recibió pago este mes.");
+                System.out.println("El empleado ya recibio pago este mes.");
                 return;
             }
 
@@ -278,7 +278,7 @@ public class EmpleadoManager {
 
     public void printEmployee(int code) throws IOException {
         if (!isEmployeeActive(code)) {
-            System.out.println("El empleado con código " + code + " no está activo o no existe.");
+            System.out.println("El empleado con código " + code + " no esta activo o no existe.");
             return;
         }
 
