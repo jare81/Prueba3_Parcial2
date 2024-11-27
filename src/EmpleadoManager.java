@@ -69,7 +69,7 @@ public class EmpleadoManager {
         //puntero ------>4
 
         rcods.seek(0);
-        rcods.writeInt(+1);
+        rcods.writeInt(code+1);
         return code;
     }
 
@@ -190,9 +190,7 @@ public class EmpleadoManager {
             } else {
                 System.out.println("El empleado ya recibio pago por este mes.");
             }
-        } else {
-            System.out.println("El empleado no esta activo.");
-        }
+        } 
 
     }
 
@@ -320,7 +318,7 @@ public class EmpleadoManager {
                 double ventasMes = ventas.readDouble();
                 boolean pagado = ventas.readBoolean();
                 totalVentas += ventasMes;
-                System.out.printf("Mes %d: Lps. %.2f %s%n", mes + 1, ventasMes, (pagado ? "(Pagado)" : "(Pendiente)"));
+                System.out.printf("Mes %d: Lps. %.2f %s%n", (mes + 1), ventasMes, (pagado ? "(Pagado)" : "(Pendiente)"));
             }
 
             System.out.println("Total de ventas del año actual: Lps. " + totalVentas);
