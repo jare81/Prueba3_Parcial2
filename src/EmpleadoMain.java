@@ -89,6 +89,11 @@ public class EmpleadoMain {
                         
                         admin.printEmployee(codes);
                         break;
+                        
+                    case 7:
+                        System.out.println("Saliendo del programa");
+                        
+                        break;
 
                     default:
                         System.out.println("Opción no válida. Intente de nuevo.");

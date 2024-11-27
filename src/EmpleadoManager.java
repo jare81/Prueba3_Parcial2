@@ -276,7 +276,7 @@ public class EmpleadoManager {
 
     public void printEmployee(int code) throws IOException {
         if (!isEmployeeActive(code)) {
-            System.out.println("El empleado con código " + code + " no está activo o no existe.");
+            System.out.println("El empleado con codigo " + code + " no esta activo o no existe.");
             return;
         }
 
@@ -328,7 +328,7 @@ public class EmpleadoManager {
         File recibosFile = new File(employeeFolder(code) + "/recibos.emp");
         if (recibosFile.exists()) {
             try (RandomAccessFile recibos = new RandomAccessFile(recibosFile, "r")) {
-                System.out.println("Recibos históricos:");
+                System.out.println("Recibos historicos:");
                 while (recibos.getFilePointer() < recibos.length()) {
                     Date fecha = new Date(recibos.readLong());
                     double comision = recibos.readDouble();
