@@ -26,7 +26,8 @@ public class EmpleadoMain {
                 System.out.println("3 - Agregar venta de empleado");
                 System.out.println("4 - Pagar al empleado");
                 System.out.println("5 - Despedir al empleado");
-                System.out.println("6 - Salir");
+                System.out.println("6 - Imprimir Datos de empleado");
+                System.out.println("7 - Salir");
 
                 System.out.print("Escoja una opcion: ");
                 opcion = entrada.nextInt();
@@ -82,7 +83,11 @@ public class EmpleadoMain {
                         break;
 
                     case 6:
-                        System.out.println("Saliendo del programa...");
+                        System.out.println("\nIMPRIMIR DATOS DE EMPLEADO\n");
+                        System.out.print("Ingrese el codigo del empleado: ");
+                        int codes = entrada.nextInt();
+                        
+                        admin.printEmployee(codes);
                         break;
 
                     default:
@@ -91,7 +96,7 @@ public class EmpleadoMain {
 
                 }
 
-            } while (opcion != 6);
+            } while (opcion != 7);
 
         } catch (InputMismatchException e) {
             System.out.println("Error de  " + e.getMessage());

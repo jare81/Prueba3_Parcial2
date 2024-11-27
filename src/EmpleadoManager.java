@@ -69,7 +69,7 @@ public class EmpleadoManager {
         //puntero ------>4
 
         rcods.seek(0);
-        rcods.writeInt(code+1);
+        rcods.writeInt(code + 1);
         return code;
     }
 
@@ -190,7 +190,7 @@ public class EmpleadoManager {
             } else {
                 System.out.println("El empleado ya recibio pago por este mes.");
             }
-        } 
+        }
 
     }
 
@@ -276,19 +276,20 @@ public class EmpleadoManager {
 
     public void printEmployee(int code) throws IOException {
         if (!isEmployeeActive(code)) {
-            System.out.println("El empleado con código " + code + " no esta activo o no existe.");
+            System.out.println("El empleado con código " + code + " no está activo o no existe.");
             return;
         }
 
-        remps.seek(0);
-
+        remps.seek(0); // Asegúrate de reiniciar el puntero del archivo
         boolean encontrado = false;
+        String name = "";
+        double salary = 0.0;
         Date contratacion = null;
 
         while (remps.getFilePointer() < remps.length()) {
             int codigo = remps.readInt();
-            String name = remps.readUTF();
-            double salary = remps.readDouble();
+            name = remps.readUTF();
+            salary = remps.readDouble();
             contratacion = new Date(remps.readLong());
             long dateD = remps.readLong();
 
@@ -296,60 +297,62 @@ public class EmpleadoManager {
                 encontrado = true;
                 break;
             }
+        }
 
-            if (encontrado == false) {
-                System.out.println("Empleado no encontrado.");
-                return;
-            }
+        if (!encontrado) {
+            System.out.println("Empleado no encontrado.");
+            return;
+        }
 
-            System.out.println("Detalles del empleado:");
-            System.out.println("Código: " + code);
-            System.out.println("Nombre: " + name);
-            System.out.println("Salario Base: Lps. " + salary);
-            System.out.println("Fecha de contratación: " + contratacion);
+        System.out.println("Detalles del empleado:");
+        System.out.println("Codigo: " + code);
+        System.out.println("Nombre: " + name);
+        System.out.println("Salario Base: Lps. " + salary);
+        System.out.println("Fecha de contratacion: " + contratacion);
 
-            RandomAccessFile ventas = salesFileFor(code);
-            double totalVentas = 0;
-            System.out.println("Ventas anuales del año actual:");
+        RandomAccessFile ventas = salesFileFor(code);
+        double totalVentas = 0;
+        System.out.println("Ventas anuales del año actual:");
 
-            for (int mes = 0; mes < 12; mes++) {
-                int posicion = mes * 9;
-                ventas.seek(posicion);
-                double ventasMes = ventas.readDouble();
-                boolean pagado = ventas.readBoolean();
-                totalVentas += ventasMes;
-                System.out.printf("Mes %d: Lps. %.2f %s%n", (mes + 1), ventasMes, (pagado ? "(Pagado)" : "(Pendiente)"));
-            }
+        for (int mes = 0; mes < 12; mes++) {
+            int posicion = mes * 9;
+            ventas.seek(posicion);
+            double ventasMes = ventas.readDouble();
+            boolean pagado = ventas.readBoolean();
+            totalVentas += ventasMes;
+            System.out.printf("Mes %d: Lps. %.2f %s%n", (mes + 1), ventasMes, (pagado ? "(Pagado)" : "(Pendiente)"));
+        }
 
-            System.out.println("Total de ventas del año actual: Lps. " + totalVentas);
+        System.out.println("Total de ventas del año actual: Lps. " + totalVentas);
 
-            File recibosFile = new File(employeeFolder(code) + "/recibos.emp");
-            if (recibosFile.exists()) {
-                try (RandomAccessFile recibos = new RandomAccessFile(recibosFile, "r")) {
-                    System.out.println("Recibos históricos:");
-                    while (recibos.getFilePointer() < recibos.length()) {
-                        Date fecha = new Date(recibos.readLong());
-                        double comision = recibos.readDouble();
-                        double salarioBase = recibos.readDouble();
-                        double deduccion = recibos.readDouble();
-                        double salarioNeto = recibos.readDouble();
-                        int year = recibos.readInt();
-                        int mes = recibos.readInt();
+        File recibosFile = new File(employeeFolder(code) + "/recibos.emp");
+        if (recibosFile.exists()) {
+            try (RandomAccessFile recibos = new RandomAccessFile(recibosFile, "r")) {
+                System.out.println("Recibos históricos:");
+                while (recibos.getFilePointer() < recibos.length()) {
+                    Date fecha = new Date(recibos.readLong());
+                    double comision = recibos.readDouble();
+                    double salarioBase = recibos.readDouble();
+                    double deduccion = recibos.readDouble();
+                    double salarioNeto = recibos.readDouble();
+                    int year = recibos.readInt();
+                    int mes = recibos.readInt();
 
-                        System.out.printf("Fecha: %s " + fecha
-                                + "\nComisión: Lps. %.2f  " + comision 
-                                + "\nSalario Base: Lps. %.2f " + salarioBase
-                                + "\nDeducción: Lps. %.2f " + deduccion
-                                + "\nSalario Neto: Lps. %.2f " + salarioNeto 
-                                +"\nAño: %d" + year + " Mes: " + (mes+1));
-                                       
-                    }
+                    System.out.printf("Fecha: %s " + fecha
+                            + "\nComisión: Lps. %.2f  " + comision
+                            + "\nSalario Base: Lps. %.2f " + salarioBase
+                            + "\nDeducción: Lps. %.2f " + deduccion
+                            + "\nSalario Neto: Lps. %.2f " + salarioNeto
+                            + "\nAño: %d" + year + " Mes: " + (mes + 1));
+
                 }
-            } else {
-                System.out.println("No hay recibos históricos disponibles para este empleado.");
             }
-
+        } else {
+            System.out.println("No hay recibos historicos disponibles para este empleado.");
         }
     }
 
 }
+
+
+
